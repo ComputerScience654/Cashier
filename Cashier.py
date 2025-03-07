@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
+from PIL import Image, ImageTk
 
 # เมนูอาหารและราคา
 menu_items = {
@@ -42,6 +43,17 @@ def checkout():
     receipt_window = tk.Toplevel(root)
     receipt_window.title("ใบเสร็จ")
     receipt_window.geometry("400x500")
+
+    # เพิ่มโลโก้
+    try:
+        image = Image.open("C:/procash/logo.png")
+        image = image.resize((50, 50), Image.LANCZOS)  # ปรับขนาดโลโก้ที่นี่
+        logo = ImageTk.PhotoImage(image)
+        logo_label = tk.Label(receipt_window, image=logo)
+        logo_label.image = logo  # เก็บ reference ของโลโก้
+        logo_label.pack()
+    except Exception as e:
+        messagebox.showerror("Error", f"ไม่สามารถโหลดโลโก้ได้: {e}")
 
     # แสดงใบเสร็จ
     receipt_text = tk.Text(receipt_window, height=20)
